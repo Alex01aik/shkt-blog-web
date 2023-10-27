@@ -1,0 +1,30 @@
+#aboutPage {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+}
+
+#aboutPageTitle {
+    margin-bottom: 24px;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.aboutParag {
+    margin-bottom: 12px;
+}
+
+#aboutCommand {
+    display: flex;
+    gap: 24px;
+}
+
+.commandMate {
+    flex: 1;
+}
+
+#aboutPageText {
+    margin-bottom: 24px;
+}

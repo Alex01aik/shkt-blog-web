@@ -1,0 +1,40 @@
+#adminPostPage {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: calc(100vh - 120px);
+}
+
+#adminPostPageEditor {
+    height: 100%;
+}
+
+#adminPostMainImage, #adminPostTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#adminPostPageButtonPanel {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#topInfo {
+    display: flex;
+    flex-direction: row;
+}
+
+#adminPostTitle, #adminPostMainImage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#adminPostTitle > textarea {
+    width: 100%;
+}

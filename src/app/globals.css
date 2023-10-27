@@ -3,25 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --text-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --text-rgb: 255, 255, 255;
+    --backgroundt-rgb: 0, 0, 0;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: rgb(var(--text-rgb));
+  background: rgb(var(--background-rgb));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header, footer {
+  color: rgb(var(--text-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+body > * {
+  padding-left: 120px;
+  padding-right: 120px;
+}
+
+@media screen and (max-width: 767px) {
+  body > * {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  body > * {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+main {
+  background: lightgray;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  background: rgb(var(--background-rgb));
 }
