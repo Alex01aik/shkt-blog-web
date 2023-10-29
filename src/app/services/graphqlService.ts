@@ -22,13 +22,15 @@ export class GraphQLService {
   }
 
   private setTokens() {
-    if (typeof localStorage !== "undefined") {
+    try {
       const tokensString = localStorage.getItem("tokens");
       if (tokensString && tokensString !== "undefined") {
         const tokens: any = JSON.parse(tokensString);
         this.accessToken = tokens.accessToken;
         this.refreshToken = tokens.refreshToken;
       }
+    } catch (err) {
+      console.error(err);
     }
   }
 
