@@ -27,7 +27,7 @@ const About: React.FC = () => {
           perspective and ideas.
         </p>
       </div>
-      <div id="aboutCommand">
+      {/* <div id="aboutCommand">
         <div className="commandMate">
           <Image src="/alexandr.jpg" alt="alexandr" width={64} height={64} />
           <div>
@@ -42,7 +42,7 @@ const About: React.FC = () => {
             <span>CO-FOUNDER, PROJECT MANAGER</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

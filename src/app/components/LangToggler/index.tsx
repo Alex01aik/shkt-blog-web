@@ -1,10 +1,11 @@
 "use client";
 
-import { Action, Lang } from "@/app/shared/react-store/store";
+import { Action } from "@/app/shared/react-store/store";
 import { useStore } from "@/app/shared/react-store/useStore";
+import { Language } from "@/app/shared/types/Language";
 
 export type LangTogglerProps = {
-  customAction?: (lang: Lang) => void;
+  customAction?: (lang: Language) => void;
 };
 
 const LangToggler: React.FC<LangTogglerProps> = ({ customAction }) => {
@@ -14,11 +15,14 @@ const LangToggler: React.FC<LangTogglerProps> = ({ customAction }) => {
     <div>
       <select
         defaultValue={0}
-        id="langSelect"
+        className="button"
         onChange={(event) => {
           const lang = event.target.value;
-          customAction?.(JSON.parse(lang)) ??
+          if (customAction) {
+            customAction(JSON.parse(lang));
+          } else {
             dispatch({ type: Action.setActualLangs, data: JSON.parse(lang) });
+          }
         }}
       >
         {state.langs?.map((item) => {

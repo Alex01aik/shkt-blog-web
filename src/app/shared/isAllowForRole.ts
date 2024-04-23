@@ -8,7 +8,6 @@ export const isAllowForRole = (roles?: string[]): boolean => {
       const tokens = localStorage.getItem("tokens");
       if (tokens) {
         const role = getRole(tokens);
-
         if (role) {
           isAllow = roles.includes(role);
         }

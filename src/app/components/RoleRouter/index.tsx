@@ -1,8 +1,8 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import { getRole } from "@/app/shared/getRole";
 import { isAllowForRole } from "@/app/shared/isAllowForRole";
+import { useEffect } from "react";
 
 export type RoleRouterProps = {
   children: React.ReactNode;
@@ -10,11 +10,13 @@ export type RoleRouterProps = {
 };
 
 const RoleRouter: React.FC<RoleRouterProps> = ({ children, roles }) => {
-  const isAllow = isAllowForRole(roles);
+  useEffect(() => {
+    const isAllow = isAllowForRole(roles);
 
-  if (!isAllow) {
-    redirect("/");
-  }
+    if (!isAllow) {
+      redirect("/");
+    }
+  }, [roles]);
 
   return children;
 };

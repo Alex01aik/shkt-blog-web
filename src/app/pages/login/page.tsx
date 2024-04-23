@@ -4,8 +4,11 @@ import Button from "@/app/components/Button";
 import "./styles.css";
 import { useState } from "react";
 import { login } from "@/app/shared/api";
+import { defaultRedirect } from "@/app/shared/function/defaultRedirect";
+import { useRouter } from "next/navigation";
 
 const Login: React.FC = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState<{ email: string; password: string }>(
     {
       email: "",
@@ -41,8 +44,8 @@ const Login: React.FC = () => {
           onClick={async (e) => {
             e.preventDefault();
             await login(formData)
-              .then((res: any) => {
-                localStorage.setItem("tokens", JSON.stringify(res.login));
+              .then(() => {
+                defaultRedirect(router);
               })
               .catch((error) => console.error("error", error));
           }}

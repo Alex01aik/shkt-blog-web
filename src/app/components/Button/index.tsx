@@ -1,9 +1,4 @@
-import {
-  ButtonHTMLAttributes,
-  CSSProperties,
-  DetailedHTMLProps,
-  ReactNode,
-} from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 import "./styles.css";
 
 export type ButtonProps = {
@@ -14,7 +9,11 @@ export type ButtonProps = {
 >;
 
 const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
-  return <button {...props}>{children}</button>;
+  return (
+    <button {...props} className={`button ${props.className}`}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;

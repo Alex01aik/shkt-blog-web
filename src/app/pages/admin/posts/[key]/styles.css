@@ -38,3 +38,13 @@
 #adminPostTitle > textarea {
     width: 100%;
 }
+
+.postInput {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.postInput label {
+    font-weight: bold;
+}

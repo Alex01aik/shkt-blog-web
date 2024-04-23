@@ -6,9 +6,11 @@ import Button from "@/app/components/Button";
 const Home: React.FC = () => {
   return (
     <div id="adminPostsPage">
-      <Link href={`/admin/posts/new`}>
-        <Button>Create new</Button>
-      </Link>
+      <div id="adminPostsPagePanel">
+        <Link href={`/admin/posts/new`}>
+          <Button>Create new</Button>
+        </Link>
+      </div>
       <PostGrid isAdmin />
     </div>
   );

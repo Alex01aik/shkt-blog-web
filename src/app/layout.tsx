@@ -7,8 +7,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import StyledComponentsRegistry from "./components/StyledComponentsRegistry";
 import { StoreProvider } from "./shared/react-store/StoreProvider";
-import { Lang } from "./shared/react-store/store";
 import { getManyLangs } from "./shared/api";
+import BackButton from "./components/BackButton";
+import { Language } from "./shared/types/Language";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,16 +22,17 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const langs: Lang[] = await getManyLangs();
+  const langs: Language[] = await getManyLangs();
   const actualLang = langs[0];
 
   return (
     <html lang="en">
       <StyledComponentsRegistry>
         <body className={inter.className}>
-          <StoreProvider initData={{ langs, actualLang, posts: [] }}>
+          <StoreProvider initData={{ langs, actualLang }}>
             <Header />
             <Main>
+              <BackButton />
               <div id="content">{children}</div>
             </Main>
             <Footer />

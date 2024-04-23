@@ -1,7 +1,41 @@
-nav {
+#desktopNav {
     display: flex;
     flex-direction: row;
     gap: 12px;
     align-items: center;
     justify-content: center;
 }
+
+#mobileNavContainer {
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgb(var(--background-rgb));
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#mobileNav {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 767px) {
+    #mobileNavContainer {
+      display: none;
+    }
+    
+    #burger {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    #desktopNav {
+        display: none;
+    }
+  }

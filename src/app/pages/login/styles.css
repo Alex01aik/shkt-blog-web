@@ -23,7 +23,7 @@
 }
 
 .input {
-    background: lightgray;
+    border: 1px solid black;
 }
 
 #loginFormButton {

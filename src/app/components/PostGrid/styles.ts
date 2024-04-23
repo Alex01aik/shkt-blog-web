@@ -3,9 +3,7 @@ import styled from "styled-components";
 export const PostsGrid = styled.div<{ $isadmin: "true" | "false" }>`
   display: grid;
   width: 100%;
-  margin: auto;
   grid-gap: 24px;
-  padding: 24px;
   ${(props) => `
     grid-template-columns: repeat(${
       props.$isadmin === "true" ? "1" : "auto-fill"

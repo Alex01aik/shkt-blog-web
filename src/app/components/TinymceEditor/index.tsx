@@ -1,18 +1,15 @@
 "use client";
 
-import { Editor } from "@tinymce/tinymce-react";
-import { MutableRefObject, useEffect, useState } from "react";
+import { Editor, IAllProps } from "@tinymce/tinymce-react";
+import { useEffect, useState } from "react";
 
-export type TinymceEditorProps = {
-  editorRef: MutableRefObject<any>;
-  initialValue?: string;
+export type TinymceEditorProps = IAllProps & {
   resetSignal?: boolean;
 };
 
 const TinymceEditor: React.FC<TinymceEditorProps> = ({
-  editorRef,
-  initialValue,
   resetSignal,
+  ...props
 }) => {
   const [editorState, setEditorState] = useState<any>(null);
 
@@ -20,37 +17,37 @@ const TinymceEditor: React.FC<TinymceEditorProps> = ({
     setEditorState({
       height: "100%",
       resize: false,
-      content: initialValue ?? "",
-      images_upload_handler: () => {
-        // TODO upload image
-      },
-      //print paste hr toc imagetools textpattern template
+      content: props.initialValue ?? "",
+      font_family_formats:
+        "Andale Mono=andale mono,times; " +
+        "Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; " +
+        "Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; " +
+        "Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; " +
+        "Impact=impact,chicago; Oswald=oswald; Symbol=symbol; " +
+        "Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; " +
+        "Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; " +
+        "Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats;" +
+        "Heavy Snow=p22-yule-heavy-snow, sans-serif; Roboto=Roboto, sans-serif;",
       plugins:
         "preview searchreplace autolink directionality visualblocks " +
         "visualchars fullscreen image link media codesample " +
         "table charmap pagebreak nonbreaking anchor insertdatetime advlist " +
-        "lists wordcount code help",
+        "lists wordcount code help pageembed",
       toolbar:
         "undo redo | formatselect | bold italic underline strikethrough | " +
-        "forecolor backcolor blockquote | link image media | " +
+        "forecolor backcolor blockquote | link image powerpaste media pageembed proscons | " +
         "alignleft aligncenter alignright alignjustify | " +
         "numlist bullist outdent indent | removeformat | help",
+      content_style: "@import url('https://use.typekit.net/nxd8hle.css",
     });
-  }, [initialValue]);
-
-  useEffect(() => {
-    if (resetSignal) {
-      editorRef.current.setContent("");
-    }
-  }, [resetSignal, editorRef]);
+  }, [props.initialValue]);
 
   return editorState ? (
     <Editor
-      onInit={(evt, editor) => (editorRef.current = editor)}
-      apiKey="67bax6zmbvrambbe0t8s16k0mh6nkwjat1rd9lnnwe4bkr8h"
+      apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
       init={editorState}
-      ref={editorRef}
       initialValue={editorState.content}
+      onChange={props.onChange}
     />
   ) : (
     <></>

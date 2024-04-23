@@ -1,5 +1,4 @@
 import { GraphQLClient } from "graphql-request";
-// import { Tokens } from "../../../path/to/generated/types";
 
 const endpoint = process.env.NEXT_PUBLIC_BACK_URL ?? "";
 
@@ -22,29 +21,30 @@ export class GraphQLService {
   }
 
   private setTokens() {
-    try {
-      const tokensString = localStorage.getItem("tokens");
-      if (tokensString && tokensString !== "undefined") {
-        const tokens: any = JSON.parse(tokensString);
-        this.accessToken = tokens.accessToken;
-        this.refreshToken = tokens.refreshToken;
+    if (typeof window !== "undefined" && window.localStorage) {
+      try {
+        const tokensString = localStorage.getItem("tokens");
+        if (tokensString && tokensString !== "undefined") {
+          const tokens: any = JSON.parse(tokensString);
+          this.accessToken = tokens.accessToken;
+          this.refreshToken = tokens.refreshToken;
+        }
+      } catch (err) {
+        console.error(err);
       }
-    } catch (err) {
-      console.error(err);
     }
   }
 
   public getAccessToken() {
-    this.setTokens();
     return this.accessToken;
   }
 
   public getRefreshToken() {
-    this.setTokens();
     return this.refreshToken;
   }
 
   public refreshClient() {
+    this.setTokens();
     this.graphQLClient.setHeader(
       "Authorization",
       this.getAccessToken() ? `Bearer ${this.getAccessToken()}` : ""

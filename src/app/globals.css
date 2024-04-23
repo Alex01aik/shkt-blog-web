@@ -32,6 +32,23 @@ body > * {
   padding-right: 120px;
 }
 
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  background: gray;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: white;
+}
+
+textarea, input {
+  border: 1px solid gray;
+  resize: none;
+  padding: 0.5rem 8px;
+}
+
 @media screen and (max-width: 767px) {
   body > * {
     padding-left: 60px;
@@ -41,13 +58,12 @@ body > * {
 
 @media screen and (max-width: 479px) {
   body > * {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 
 main {
-  background: lightgray;
   flex: auto;
   display: flex;
   flex-direction: column;
@@ -58,4 +74,12 @@ main {
   display: flex;
   flex-direction: column;
   background: rgb(var(--background-rgb));
+}
+
+.button {
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.7;
 }

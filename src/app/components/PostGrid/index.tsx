@@ -1,30 +1,53 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./styles.css";
 import { PostsGrid, Post, PostTitle, PostAdminPanel } from "./styles";
 import Button from "../Button";
 import Link from "next/link";
-import { getPosts, Post as PostType } from "@/app/shared/react-store/store";
+import { Post as PostType } from "@/app/shared/types/Post";
 import { useStore } from "@/app/shared/react-store/useStore";
-import { deleteOnePost } from "@/app/shared/api";
+import { deleteOnePost, getPosts } from "@/app/shared/api";
 
 export type PostGridProps = {
   isAdmin?: boolean;
 };
 
 const PostGrid: React.FC<PostGridProps> = ({ isAdmin }) => {
-  const { state, dispatch } = useStore();
+  const [isAll, setIsAll] = useState<boolean>(false);
+  const take = 10;
+  const [skip, setSkip] = useState<number>(0);
+  const { state } = useStore();
   const [posts, setPosts] = useState<PostType[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
+  const [isListEnd, setIsListEnd] = useState<boolean>(false);
+
+  const fetchPosts = useCallback(async () => {
+    const res = await getPosts({ lang: state.actualLang!.lang, take, skip });
+    setPosts((prev) => {
+      if (res.length < take) {
+        setIsAll(true);
+      }
+      return [...prev, ...res];
+    });
+  }, [state.actualLang, skip]);
 
   useEffect(() => {
+    if (isListEnd && !isAll) {
+      setSkip((prev) => prev + take);
+    }
+  }, [isListEnd, isAll]);
+
+  useEffect(() => {
+    fetchPosts();
     const handleScroll = () => {
-      // TODO accurate check (checking all window height now)
-      const windowHeight = window.innerHeight;
-      const scrollY = window.scrollY;
-      const documentHeight = document.documentElement.scrollHeight;
-      if (windowHeight + scrollY >= documentHeight) {
-        // TODO get next page
+      if (ref.current) {
+        const grid = ref.current;
+        if (grid.getBoundingClientRect().bottom <= window.innerHeight) {
+          setIsListEnd(true);
+        } else {
+          setIsListEnd(false);
+        }
       }
     };
 
@@ -33,21 +56,13 @@ const PostGrid: React.FC<PostGridProps> = ({ isAdmin }) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
-
-  useEffect(() => {
-    getPosts(dispatch, state);
-  }, [state.actualLang]);
-
-  useEffect(() => {
-    setPosts(state.posts);
-  }, [state.posts]);
+  }, [fetchPosts, ref]);
 
   return (
-    <PostsGrid $isadmin={isAdmin ? "true" : "false"}>
+    <PostsGrid ref={ref} $isadmin={isAdmin ? "true" : "false"}>
       {posts.map((item) => (
-        <div key={item.id}>
-          <Link href={`/post/${item.id}`}>
+        <div className="postCard" key={item.key}>
+          <Link href={`/post/${item.key}`}>
             <Post>
               <PostTitle className="postTitle">
                 {item.localePosts[0]?.title}
@@ -56,12 +71,12 @@ const PostGrid: React.FC<PostGridProps> = ({ isAdmin }) => {
           </Link>
           {isAdmin && (
             <PostAdminPanel>
-              <Link href={`/admin/posts/${item.id}`}>
+              <Link href={`/admin/posts/${item.key}`}>
                 <Button>update</Button>
               </Link>
               <Button
                 onClick={async () => {
-                  await deleteOnePost({ id: item.id });
+                  await deleteOnePost({ id: item.key });
                 }}
               >
                 delete

@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducer, ReactNode } from "react";
-import { Lang, State, initialState, reducer } from "./store";
+import { State, initialState, reducer } from "./store";
 import { StoreContext } from "./useStore";
 
 interface StoreProviderProps {
